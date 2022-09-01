@@ -23,32 +23,27 @@ class SinglyLinkedList {
     this.size++;
   }
   append(value) {
-    if (this.isEmpty()) {
-      this.prepend(value);
-    } else {
-      const node = new Node(value);
-      let previous = this.head;
-      while (previous.next) {
-        previous = previous.next;
-      }
-      previous.next = node;
-      this.size++;
+    if (this.isEmpty()) return this.prepend(value);
+    const node = new Node(value);
+    let previous = this.head;
+    while (previous.next) {
+      previous = previous.next;
     }
+    previous.next = node;
+    this.size++;
   }
   insert(value, index) {
     if (index < 0 || index > this.size) return;
-    if (index === 0) {
-      this.prepend(value);
-    } else {
-      const node = new Node(value);
-      let previous = this.head;
-      for (let i = 0; i < index - 1; i++) {
-        previous = previous.next;
-      }
-      node.next = previous.next;
-      previous.next = node;
-      this.size++;
+    if (index === 0) return this.prepend(value);
+    if (index === this.size) return this.append(value);
+    const node = new Node(value);
+    let previous = this.head;
+    for (let i = 0; i < index - 1; i++) {
+      previous = previous.next;
     }
+    node.next = previous.next;
+    previous.next = node;
+    this.size++;
   }
   removeFrom(index) {
     if (index < 0 || index >= this.size) return null;
@@ -110,17 +105,14 @@ class SinglyLinkedList {
     this.head = previous;
   }
   print() {
-    if (this.isEmpty()) {
-      console.log("List is empty");
-    } else {
-      let current = this.head;
-      const listValues = [];
-      while (current) {
-        listValues.push(current);
-        current = this.next;
-      }
-      console.log(listValues);
+    if (this.isEmpty()) return console.log("List is empty");
+    let current = this.head;
+    const listValues = [];
+    while (current) {
+      listValues.push(current.value);
+      current = this.next;
     }
+    console.log(listValues);
   }
 }
 
