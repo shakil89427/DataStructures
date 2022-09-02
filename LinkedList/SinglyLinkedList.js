@@ -25,40 +25,39 @@ class SinglyLinkedList {
   append(value) {
     if (this.isEmpty()) return this.prepend(value);
     const node = new Node(value);
-    let previous = this.head;
-    while (previous.next) {
-      previous = previous.next;
+    let current = this.head;
+    while (current.next) {
+      current = current.next;
     }
-    previous.next = node;
+    current.next = node;
     this.size++;
   }
   insert(value, index) {
     if (index < 0 || index > this.size) return;
     if (index === 0) return this.prepend(value);
-    if (index === this.size) return this.append(value);
     const node = new Node(value);
-    let previous = this.head;
+    let current = this.head;
     for (let i = 0; i < index - 1; i++) {
-      previous = previous.next;
+      current = current.next;
     }
-    node.next = previous.next;
-    previous.next = node;
+    node.next = current.next;
+    current.next = node;
     this.size++;
   }
   removeFrom(index) {
     if (index < 0 || index >= this.size) return null;
-    let removedNode;
     if (index === 0) {
-      removedNode = this.head;
+      const removedNode = this.head;
       this.head = removedNode.next;
-    } else {
-      let previous = this.head;
-      for (let i = 0; i < index - 1; i++) {
-        previous = previous.next;
-      }
-      removedNode = prev.next;
-      prev.next = removedNode.next;
+      this.size--;
+      return removedNode.value;
     }
+    let current = this.head;
+    for (let i = 0; i < index - 1; i++) {
+      current = current.next;
+    }
+    const removedNode = current.next;
+    current.next = removedNode.next;
     this.size--;
     return removedNode.value;
   }
@@ -68,19 +67,17 @@ class SinglyLinkedList {
       this.head = this.head.next;
       this.size--;
       return value;
-    } else {
-      let previous = this.head;
-      while (previous.next && previous.next.value !== value) {
-        previous = previous.next;
-      }
-      if (previous.next) {
-        removedNode = previous.next;
-        previous.next = removedNode.next;
-        this.size--;
-        return value;
-      }
-      return null;
     }
+    let current = this.head;
+    while (current.next && current.next.value !== value) {
+      current = current.next;
+    }
+    if (current.next) {
+      current.next = current.next.next;
+      this.size--;
+      return value;
+    }
+    return null;
   }
   search(value) {
     if (this.isEmpty()) return -1;
